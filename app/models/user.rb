@@ -3,6 +3,6 @@ class User < ActiveRecord::Base
   # a distressingly common and often serious security hole in many Rails applications.
   attr_accessible :name, :email
   
-  validates :name, :presence => true
+  # validates :name, :presence => true
   
 end
