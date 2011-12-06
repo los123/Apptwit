@@ -1,8 +1,8 @@
 Apptwit::Application.routes.draw do
-  
+	resources :users
   
   #get "users/new"
-  match 'pages/signup',  :to => 'users#new', :as => "signup"
+  match '/signup',  :to => 'users#new', :as => "signup"
   match 'pages/contact', :to => 'pages#contact', :as => "contact"
   match '/pages/about',   :to => 'pages#about', :as => "about"
   match 'pages/help',    :to => 'pages#help', :as => "help"
