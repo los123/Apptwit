@@ -1,13 +1,23 @@
 Apptwit::Application.routes.draw do
-	resources :users
+	
+  resources :users
   
-  #get "users/new"
   match '/signup',  :to => 'users#new', :as => "signup"
   match 'pages/contact', :to => 'pages#contact', :as => "contact"
   match '/pages/about',   :to => 'pages#about', :as => "about"
   match 'pages/help',    :to => 'pages#help', :as => "help"
   match 'pages/home',    :to => 'pages#home', :as => "home"
   match '/', :to => 'pages#home'
+  
+# WHAT ENTRY resources :users ACTUALLY PROVIDES:
+# HTTP request	URL	     Action	Named route	   Purpose
+# GET	      /users	     index	users_path	   page to list all users
+# GET	      /users/1	     show	user_path(1)	   page to show user with id 1
+# GET	      /users/new     new	new_user_path	   page to make a new user (signup)
+# POST	      /users	     create	users_path	   create a new user
+# GET	      /users/1/edit  edit	edit_user_path(1)  page to edit user with id 1
+# PUT	      /users/1	     update	user_path(1)	   update user with id 1
+# DELETE      /users/1	     destroy	user_path(1)	   delete user with id 1
   
 
   # The priority is based upon order of creation:

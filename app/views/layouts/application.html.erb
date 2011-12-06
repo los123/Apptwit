@@ -24,9 +24,18 @@
           </ul>
         </nav>
       </header>
-      <section class="round">
+       <section class="round">
         <%= yield %>
       </section>
+     
+      <!--- WILL DISPLAY THE FOLLOWING INFORMATION ON TEACH PAGE:
+     action: show
+     controller: users
+     id: '1'
+     This shows up on page http://localhost:3000/users/1
+     -->
+          <%= debug(params) if Rails.env.development? %>
+          
      </div> 
   </body>
   
