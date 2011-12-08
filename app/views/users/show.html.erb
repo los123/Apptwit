@@ -1,7 +1,17 @@
-<%= @user.name %>, <%= @user.email %>
-
-<h1>
-  <%= gravatar_for @user %>
-  <%= @user.name %>
-</h1>
+<table class="profile" summary="Profile information">
+  <tr>
+    <td class="main">
+      <h1>
+        <%= gravatar_for @user %>
+        <%= @user.name %>
+      </h1>
+    </td>
+    <td class="sidebar round">
+      <strong>Name</strong> <%= @user.name %><br />
+      <strong>URL</strong>  <%= link_to user_path(@user), @user %>
+      <!-- user_path(@user) is the link text, while the address is just @user. In the context of a link_to, Rails converts @user 
+      to the appropriate URL; in other words, the code above is equivalent to the code -->
+    </td>
+  </tr>
+</table>
 
