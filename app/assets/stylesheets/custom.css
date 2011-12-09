@@ -3,10 +3,18 @@
   width: 710px;
 }
 
+/* ########## */
+/*  BODY CSS */
+/* ########## */
+
 /* Changes the background color OF THE BODY to baby blue. */
 body {
   background: #cff;
 }
+
+/* ########## */
+/* HEADER CSS */
+/* ########## */
 
 header {
   padding-top: 20px;
@@ -30,7 +38,9 @@ section h1 {
   font-size: 200%;
 }
 
-/* Links */
+/* ########## */
+/* LINKS CSS */
+/* ########## */
 
 a {
   color: #09c;
@@ -46,7 +56,10 @@ a:visited {
   color: #069;
 }
 
-/* Navigation */
+
+/* ########## */
+/* NAVIGATION */
+/* ########## */
 
 nav {
   float: right;
@@ -82,7 +95,9 @@ nav ul li a:hover {
   text-decoration: underline;
 }
 
-/* Sign up button */
+/* ############# */
+/* SIGNUP BUTTON */
+/* ############# */
 
 a.signup_button {
   margin-left: auto;
@@ -97,7 +112,7 @@ a.signup_button {
   padding: 20px;
 }
 
-/* Round corners */
+/* ROUND CORNERS */
 
 .round {
   -moz-border-radius:    10px;
@@ -105,22 +120,62 @@ a.signup_button {
   border-radius:         10px;
 }
 
-/* Footer */
+/* ###### */
+/* SIGNUP */
+/* ###### */
 
-footer {
-  text-align: center;
+div.field, div.actions {
+  margin-bottom: 10px;
+}
+
+/* ################## */
+/* ERROR MESSAGES CSS */
+/* ################## */
+
+.field_with_errors {
   margin-top: 10px;
-  width: 710px;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 2px;
+  background-color: red;
+  display: table;
 }
 
-footer nav {
-  float: none;
-/* that overrides the previous rule - nav { float: none */
+.field_with_errors label {
+  color: #fff;
 }
 
-/* User show page */
+#error_explanation {
+  width: 400px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+}
+
+#error_explanation h2 {
+  text-align: left;
+  font-weight: bold;
+  padding: 5px 5px 5px 15px;
+  font-size: 12px;
+  margin: -7px;
+  background-color: #c00;
+  color: #fff;
+}
+
+#error_explanation p {
+  color: #333;
+  margin-bottom: 0;
+  padding: 5px;
+}
+
+#error_explanation ul li {
+  font-size: 12px;
+  list-style: square;
+}
+
+/* ############## */
+/* USER SHOW PAGE */
+/* ############## */
 
 table.profile {
   width: 100%;
@@ -142,4 +197,21 @@ td.sidebar {
 .profile img.gravatar {
   border: 1px solid #999;
   margin-bottom: -15px;
+}
+
+/* ###### */
+/* FOOTER */
+/* ###### */
+
+footer {
+  text-align: center;
+  margin-top: 10px;
+  width: 710px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+footer nav {
+  float: none;
+/* that overrides the previous rule - nav { float: none */
 }
