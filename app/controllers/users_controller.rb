@@ -13,10 +13,12 @@ class UsersController < ApplicationController
   end
   
   def create
+    #  raise params[:user].inspect
     @user = User.new(params[:user])
     if @user.save
+    	    sign_in @user
     	    flash[:success] = "Welcome to the Blue Bird Microblog!"
-    redirect_to @user
+          redirect_to @user
     # Handle a successful save.
     # @user = User.new(params[:user]) IS EQUIVALENT TO:
     # @user = User.new(:name => "Foo Bar", :email => "foo@invalid", :password => "dude", :password_confirmation => "dude")

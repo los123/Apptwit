@@ -103,6 +103,14 @@ describe "POST 'create'" do
     end
   end
 
+#######   TESTING THAT NEWLY SIGNED-UP USERS ARE ALSO SIGNED IN ##############
+
+     it "should sign the user in" do
+        post :create, :user => @attr
+        controller.should be_signed_in
+     end
+  
+  
 ############### EL FONDO ######################
 
 end
