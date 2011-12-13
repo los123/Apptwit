@@ -199,6 +199,18 @@ td.sidebar {
   margin-bottom: -15px;
 }
 
+/* ############### */
+/* USERS INDEX CSS */
+/* ############### */
+
+ul.users {
+  margin-top: 1em;
+}
+
+.users li {
+  list-style: none;
+}
+
 /* ###### */
 /* FOOTER */
 /* ###### */

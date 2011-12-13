@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-before_filter :authenticate, :only => [:edit, :update]
+before_filter :authenticate, :only => [:index,:edit, :update]
 # before filter arranges for a particular method to be called before t
 # he given actions.
 # In this case, we define an authenticate method and invoke it using 
@@ -10,13 +10,18 @@ before_filter :authenticate, :only => [:edit, :update]
 before_filter :correct_user, :only => [:edit, :update]
 # See correct_user method defines in private section
 
-	
+	def index
+    @title = "All users"
+    @users = User.all
+  end
+
 	
 	# standard Rails params object to retrieve the user id. When we make the appropriate 
 	# request to the Users controller, params[:id] will be the user id 1, 
 	# so the effect is the same as the find command
   def show
     @user = User.find(params[:id])
+    @title = @user.name
   end
   
   def new
@@ -57,6 +62,8 @@ def update
       render 'edit'
     end
   end
+ 
+ 
 
 ########### PRIVATE SECTION #################3
 

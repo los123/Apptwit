@@ -15,12 +15,13 @@
   <body>
     <div class="container">
       <header>
-        <%= image_tag("logo.png", :alt => "Sample App", :class => "round") %>
+        <%= image_tag("logo.png", :alt => "Blue Bird", :class => "round") %>
         <nav class="round">
           <ul>
             <li><%= link_to "Home", home_path %></li>
             <!-- Show profile link to the signed in users --> 
             <% if signed_in? %>
+             <li><%= link_to "Users", users_path %></li>
              <li><%= link_to "Profile", current_user %></li>
              <li><%= link_to "Settings", edit_user_path(current_user) %></li>
              <!-- current_user defined in sessions_helper
