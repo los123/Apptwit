@@ -22,7 +22,12 @@
             <!-- Show profile link to the signed in users --> 
             <% if signed_in? %>
              <li><%= link_to "Profile", current_user %></li>
-             <% end %>
+             <li><%= link_to "Settings", edit_user_path(current_user) %></li>
+             <!-- current_user defined in sessions_helper
+             	def current_user
+				@current_user ||= user_from_remember_token
+				end -->	
+               <% end %>
             <li><%= link_to "Help", help_path %></li>
             <!-- Show signout link link to the signed in users, if not signed in - show signin link -->
             <% if signed_in? %>
@@ -45,10 +50,10 @@
       This shows up on page http://localhost:3000/users/1
       action: show
      controller: users
-     id: '1' -->
+     id: '1' 
       
     
-          <%= debug(params) if Rails.env.development? %>  
+          <%= debug(params) if Rails.env.development? %>  -->
           
      </div> 
   </body>

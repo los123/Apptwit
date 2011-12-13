@@ -1,0 +1,45 @@
+<!-- As currently constructed, every edit requires the user to reconfirm 
+	the password (as implied by the empty confirmation text box in 
+	Figure 10.3), which makes updates more secure but is a minor 
+	annoyance. -->
+
+<h1>Edit user</h1>
+
+<%= form_for(@user) do |f| %>
+  <%= render 'fields', :f => f %>
+  <!-- the line above inserts the contens of the _fields.html.erb
+  	:f => f - wh this line is needed? 
+  	without it the error is received on edit page "undefined local variable or method `f'" - tis happens
+  	because variable f is defined in this file but the _fields partial has no idea what it it, so it
+  	should be passed to the partial, and this is what the line :f => f does:
+  	:f is a simbol exactly the same |f| block variable and it corresponds to the f in partial
+  	<%= f.label :name %><br />
+    <%= f.text_field :name %>
+  	
+  	and => f on the right side is the variable itself -->
+  <div class="actions">
+    <%= f.submit "Update" %>
+  </div>
+<% end %>
+
+<div>
+  <%= gravatar_for @user %>
+  <a href="http://gravatar.com/emails" target=_blank >change</a>
+  <!-- target=_blank opens page in another tab -->
+</div>
+
+
+<!--- 
+There’s another subtlety to address here: the code form_for(@user) in 
+Listing 10.3 is exactly the same as the code in Listing 8.2—so how does 
+Rails know to use a POST request for new users and a PUT for editing users? 
+When constructing a form using form_for(@user), Rails uses 
+POST if @user.new_record? is true and PUT if it is false.
+
+
+2. Edit form posts the infromation, but it has to be PUT.
+Since web browsers can’t natively send PUT requests (as required by the REST 
+conventions from Table 6.2), Rails fakes it with a POST request and a hidden 
+input field - like this (source for edit page)
+<form action="/users/1" class="edit_user" id="edit_user_1" method="post">
+  <input name="_method" type="hidden" value="put" />     -- > 

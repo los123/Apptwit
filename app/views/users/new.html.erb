@@ -3,44 +3,9 @@
 <h1>Sign up</h1>
 
 <%= form_for(@user) do |f| %>
-    <%= render 'shared/error_messages' %>
-    <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-<!--- PRODUCES HTML
-<div class="field">
-  <label for="user_name">Name</label><br />
-  <input id="user_name" name="user[name]" size="30" type="text" />
-</div>
--->
-  
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.text_field :email %>
-  </div>
-  
-  
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password %>
-<!-- PRODUCES HTML
-<div class="field">
-  <label for="user_password">Password</label><br />
-  <input id="user_password" name="user[password]" size="30" type="password" />
-</div>
-1. password fields (type="password") obscure the input for security purposes
-2.  the key to creating a user is the special name attribute in each input.
-These name values allow Rails to construct an initialization hash (via the params variable 
-for creating users using the values entered by the user.
-
--->
-  </div>
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirmation" %><br />
-    <%= f.password_field :password_confirmation %>
-  </div>
+   <%= render 'fields', :f => f %>
+  <!-- the line above inserts the contens of the _fields.html.erb 
+  	see comments in edit.html.erb for code explnation -->
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>

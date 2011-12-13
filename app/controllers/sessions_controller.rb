@@ -13,20 +13,15 @@ class SessionsController < ApplicationController
       render 'new'
     else
       sign_in user
-      redirect_to user
+      #redirect_to user
+      redirect_back_or user # repalced redirect_to user for friendly forwarding 
+                            # implementation.
+                            # This method is needed in the Sessions controller 
+                            # create action to redirect after successful signin
     end
     end
     
-    def destroy
-    sign_out
-    redirect_to root_path
-    end
-  
-  
-end
-
-
-  ## COMMENTS FOR ABOVE - def create
+## COMMENTS FOR ABOVE - def create
   
   # 1. User.authenticate  
 # We extract the submitted email address and password from the params hash, and then pass them to the User.authenticate method. 
@@ -47,4 +42,12 @@ end
 # To avoid this weird behavior, when rendering rather than redirecting we use flash.now instead of flash. 
 # The flash.now object is specifically designed for displaying flash messages on rendered pages. If you ever find yourself wondering why a flash message is showing up where you don�t expect it, chances are good that you need to replace flash with flash.now.
 
+    
+    def destroy
+    sign_out
+    redirect_to root_path
+    end
+  
+  
+end
 
