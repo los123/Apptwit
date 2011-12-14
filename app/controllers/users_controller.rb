@@ -1,4 +1,8 @@
 class UsersController < ApplicationController
+  
+############# BEFORE filters ###################################
+############# BEFORE filters ###################################
+
 before_filter :authenticate, :only => [:index,:edit, :update]
 # before filter arranges for a particular method to be called before t
 # he given actions.
@@ -10,10 +14,28 @@ before_filter :authenticate, :only => [:index,:edit, :update]
 before_filter :correct_user, :only => [:edit, :update]
 # See correct_user method defines in private section
 
+before_filter :admin_user,   :only => :destroy
+# A before filter restricting the destroy action to admins. 
+
+############# BEFORE filters END ###################################
+
+
+
+
 	def index
     @title = "All users"
-    @users = User.all
+    @users = User.paginate(:page => params[:page]) #on Windows - restart webrick for this setting to kick in
+    WillPaginate.per_page = 10 #on Windows - restart webrick for this setting to kick in
   end
+
+# We can paginate the users in the sample application by using paginate in 
+# place of all in the index action (Listing 10.28). Here 
+# the :page parameter comes from params[:page], which is generated automatically 
+# by will_paginate.
+# User.paginate pulls the users out of the database one chunk at a time 
+# (30 by default), based on the :page parameter.
+# :page parameter comes from params[:page], which is generated automatically 
+# by will_paginate.
 
 	
 	# standard Rails params object to retrieve the user id. When we make the appropriate 
@@ -63,7 +85,11 @@ def update
     end
   end
  
- 
+  def destroy
+    User.find(params[:id]).destroy
+    flash[:success] = "User destroyed."
+    redirect_to users_path
+  end
 
 ########### PRIVATE SECTION #################3
 
@@ -81,6 +107,10 @@ private
     def correct_user
       @user = User.find(params[:id])
       redirect_to(root_path) unless current_user?(@user)
+    end
+    
+    def admin_user
+      redirect_to(root_path) unless current_user.admin?
     end
     
 ###################### EL FONDO ###############

@@ -263,12 +263,12 @@ describe "for signed-in users" do
 describe "GET 'index'" do
 
     describe "for non-signed-in users" do
-      it "should deny access" do
+       it "should deny access" do
         get :index
         response.should redirect_to(signin_path)
         flash[:notice].should =~ /sign in/i
       end
-    end
+      end
 
     describe "for signed-in users" do
       
@@ -276,9 +276,17 @@ describe "GET 'index'" do
         @user = test_sign_in(Factory(:user))
         second = Factory(:user, :name => "Bob", :email => "another@example.com")
         third  = Factory(:user, :name => "Ben", :email => "another@example.net")
-        
-        @users = [@user, second, third]
+            @users = [@user, second, third]
+        10.times do
+          @users << Factory(:user, :name => Factory.next(:name),
+                                   :email => Factory.next(:email))
+        # 30.times do - added for pagination tests, I changed it to 10,
+        # from the default of 30 to paginate 10 entries per page
+        # << line ads users from factory to @users variable
+        # << - Array push notation, which appends an element to an existing array
+      end  
       end
+      
       
       it "should be successful" do
         get :index
@@ -299,6 +307,80 @@ describe "GET 'index'" do
     end
   end
 
+############### PAGINATION TEST ######################
+##############  PAGINATION TEST ######################
+
+# See in the section above 10.times do - also part of the pagination test
+
+it "should have an element for each user" do
+        get :index
+        @users[0..2].each do |user|
+        # Done to use only the first three elements ([0..2]) of the @users array.
+          response.should have_selector("li", :content => user.name)
+        end
+        end
+      
+      it "should paginate users" do
+        get :index
+        response.should have_selector("div.pagination")
+        # have_selector("div.pagination"), which borrows the class convention 
+        # from CSS to check for a div tag with class pagination
+        response.should have_selector("span.disabled", :content => "Previous")
+        response.should have_selector("a", :href => "/users?page=2",
+                                           :content => "2")
+        response.should have_selector("a", :href => "/users?page=2",
+                                           :content => "Next")
+      end
+
+
+############### SECURITY TESTS ######################
+# tests should check not only that admins can delete users, but also that 
+# other users can’t.
+  
+  describe "DELETE 'destroy'" do
+    
+    before(:each) do
+      @user = Factory(:user)
+    end
+    
+    describe "as a non-signed-in user" do
+      it "should deny access" do
+        delete :destroy, :id => @user
+        response.should redirect_to(signin_path)
+      end
+    end
+
+    describe "as a non-admin user" do
+      it "should protect the page" do
+        test_sign_in(@user)
+        delete :destroy, :id => @user
+        response.should redirect_to(root_path)
+      end
+    end
+    
+    describe "as an admin user" do
+      
+      before(:each) do
+        admin = Factory(:user, :email => "admin@example.com", :admin => true)
+        # (You might notice that we’ve set an admin user using :admin => true; 
+        # user factories are not bound by the rules of attr_accessible parameters.) 
+        test_sign_in(admin)
+      end
+
+      it "should destroy the user" do
+        lambda do
+          delete :destroy, :id => @user
+        end.should change(User, :count).by(-1) # change method can take a negative value
+      end
+      
+      it "should redirect to the users page" do
+        delete :destroy, :id => @user
+        response.should redirect_to(users_path)
+        # The destroy action itself finds the user, destroys it, 
+        # and then redirects to user index 
+      end
+    end
+  end
   
 ############### EL FONDO ######################
 

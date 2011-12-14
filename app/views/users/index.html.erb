@@ -1,10 +1,22 @@
 <h1>All users</h1>
 
+<%= will_paginate %>
+
 <ul class="users">
-  <% @users.each do |user| %>
-    <li>
-      <%= gravatar_for user, :size => 30 %>
-      <%= link_to user.name, user %>
-    </li>
-  <% end %>
+  <%= render @users %>
 </ul>
+
+<!-- Here Rails infers that @users is a list of User objects; moreover, 
+when called with a collection of users, Rails automatically iterates through 
+them and renders each one with the _user.html.erb partial.
+The result is the impressively compact code -->
+
+<%= will_paginate %>
+
+<!--- PAGINATE METHOD
+The will_paginate method is a little magical; inside a users view, it 
+automatically looks for an @users object, and then displays pagination links 
+to access other pages. 
+
+We included will_paginate both above and below the user list, 
+the pagination links appear in both places. -->

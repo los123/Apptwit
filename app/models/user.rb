@@ -5,18 +5,23 @@ class User < ActiveRecord::Base
   # Since we�ll be accepting passwords and password confirmations as part of the signup process we need to add the password and 
   # its confirmation to the list of accessible attributes 
   attr_accessible :name, :email, :password, :password_confirmation
+  # !!! Explicitly defining accessible attributes is crucial for good site security.
+  # For example exclding :admin from the list is the very good idea. If we follishly
+  # added :admin to the listm then malicious user can send a PUT request as follows
+  # put /users/17?admin=1 This request would make user 17 an admin, which could be a potentially serious security breach, to say the least.
   
+  
+  attr_accessor :password
   # We use "attr_accessor :password" to create a virtual password attribute
   # I had to add :salt to attr_accessor because I was getting an error
   # undefined local variable or method `salt' for #<User:0x44f9fe8>
-  attr_accessor :password
   
   
   
   email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   
   validates :name, :presence => true,
-   		   :length   => { :maximum => 20 }
+   		   :length   => { :maximum => 50 }
    		   
   validates :email, :presence => true,
    		    :format   => { :with => email_regex },

@@ -1,0 +1,19 @@
+<li>
+  <%= gravatar_for user, :size => 30 %>
+  <%= link_to user.name, user %>
+  <% if current_user.admin? %>
+  | <%= link_to "delete", user, :method => :delete, :confirm => "Are you absolutely positive you want to delete this user?",
+                                :title => "Delete #{user.name}" %>
+  <% end %>
+  </li>
+  <!--- User delete links (viewable only by admins)-->
+  <!-- 
+  	Web browsers can’t send DELETE requests natively, so Rails fakes 
+  	them with JavaScript.
+  	This means that the delete links won’t work if the user has JavaScript 
+  	disabled. If you must support non-JavaScript-enabled browsers you can fake a
+  	DELETE request using a form and a POST request, which works even without 
+  	JavaScript
+  	Which action is used by the link is dictated by :method => :delete line
+  	-->
+
