@@ -4,10 +4,10 @@ describe User do
 	
 	# 1.
 	# before(:each) block - all it does is run the code inside the block 
-	# before each example—in this case setting the @attr instance variable 
+	# before each exampleï¿½in this case setting the @attr instance variable 
 	# to an initialization hash.
 	# 2.
-	# To write tests for passwords, we’ll need to add two new attributes to the @attr hash, password and password_confirmation.
+	# To write tests for passwords, weï¿½ll need to add two new attributes to the @attr hash, password and password_confirmation.
 	# Actually it works like this: we will not introduce a password_confirmation attribute, not even a virtual one. 
 	# Instead, we will use the special validation "validates :password, :confirmation => true", which 
 	# will automatically create a virtual attribute called password_confirmation, while confirming that it matches the password 
@@ -25,18 +25,18 @@ describe User do
 	  end
 			
 			# The first example is just a sanity check, verifying that the User model is basically working. 
-			# It uses User.create! (read “create bang”), which works just like the create method  
+			# It uses User.create! (read ï¿½create bangï¿½), which works just like the create method  
 			# except that it raises an ActiveRecord::RecordInvalid exception if the creation fails
-			# As long as the attributes are valid, it won’t raise any exceptions, and the test will pass.
+			# As long as the attributes are valid, it wonï¿½t raise any exceptions, and the test will pass.
 			
 			it "Should create a new instance given valid attribues" do
 			User.create!(@attr)
 			end
 			
-			# The final line is the test for the presence of the name attribute—or rather, it would be the actual test, 
-			# if it had anything in it. Instead, the test is just a stub, but a useful stub it is: it’s a pending spec, 
-			# which is a way to write a description of the application’s behavior without worrying yet about the implementation.
-			# Pending specs are useful as placeholders for tests we know we need to write at some point but don’t want to deal 
+			# The final line is the test for the presence of the name attributeï¿½or rather, it would be the actual test, 
+			# if it had anything in it. Instead, the test is just a stub, but a useful stub it is: itï¿½s a pending spec, 
+			# which is a way to write a description of the applicationï¿½s behavior without worrying yet about the implementation.
+			# Pending specs are useful as placeholders for tests we know we need to write at some point but donï¿½t want to deal 
 			# with right now.
 			# IT IS COMMENTED OUT BECAUSE WE ARE GONNA CREATE THE PASSING EXAMPLE NOW
 			# it "Should require a name"
@@ -205,6 +205,41 @@ describe User do
 		        end
 		        end
 		    
+			################## TESTING THE ORDER OF UDER'S MICROPOSTS #############
+			
+			describe "micropost associations" do
+
+    before(:each) do
+      @user = User.create(@attr)
+      @mp1 = Factory(:micropost, :user => @user, :created_at => 1.day.ago)
+      @mp2 = Factory(:micropost, :user => @user, :created_at => 1.hour.ago)
+    end
+
+    it "should have a microposts attribute" do
+      @user.should respond_to(:microposts)
+    end
+
+    it "should have the right microposts in the right order" do
+      @user.microposts.should == [@mp2, @mp1]
+      # indicating that the posts should be ordered newest first. 
+      # to get the ordering test to pass  we use a Rails facility called default_scope
+      # with an :order parameter - located in app/models/micropost.rb  - default_scope :order => 'microposts.created_at DESC'
+    end
+  end
+  
+  ################## TESTING THAT MICROPOSTS ARE DESROYED HEN USERS ARE #############
+  
+  describe "micropost associations" do
+
+      it "should destroy associated microposts" do
+      @user.destroy
+      [@mp1, @mp2].each do |micropost|
+        Micropost.find_by_id(micropost.id).should be_nil
+      end
+    end
+   end
+  
+      ################## EL FONDO  ############ 
 			
 		end	
 	end

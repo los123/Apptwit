@@ -44,6 +44,12 @@ module SessionsHelper
     #clear_return_to
   #end
   
+  def authenticate
+    deny_access unless signed_in?
+  end
+  # ADDED TO HERE (moved from Users Controller) because now it required for Microposts controller
+  # controller as well. So - DRY.
+  
   def deny_access
     store_location # This line was added for friendly forawarding
                    # store_location is storing the full path of the request

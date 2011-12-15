@@ -5,12 +5,24 @@
         <%= gravatar_for @user %>
         <%= @user.name %>
       </h1>
+      <% unless @user.microposts.empty? %>
+      <!-- by this line we make sure that an empty table won’t be displayed 
+      	when the user has no microposts.-->
+        <table class="microposts" summary="User microposts">
+        <%= render @microposts %>
+        </table>
+        <%= will_paginate @microposts %>
+      <% end %>
     </td>
     <td class="sidebar round">
       <strong>Name</strong> <%= @user.name %><br />
-      <strong>URL</strong>  <%= link_to user_path(@user), @user %>
-      <!-- user_path(@user) is the link text, while the address is just @user. In the context of a link_to, Rails converts @user 
+      <strong>URL</strong>  <%= link_to user_path(@user), @user %> <br />
+        <!-- user_path(@user) is the link text, while the address is just @user. In the context of a link_to, Rails converts @user 
       to the appropriate URL; in other words, the code above is equivalent to the code -->
+      <strong>Microposts</strong> <%= @user.microposts.count %>
+      <!-- Here @user.microposts.count is the analogue of the User.count 
+      	method, except that it counts the microposts belonging to a given 
+      	user through the user/micropost association.-->
     </td>
   </tr>
 </table>

@@ -1,9 +1,9 @@
-class UsersController < ApplicationController
+ class UsersController < ApplicationController
   
 ############# BEFORE filters ###################################
 ############# BEFORE filters ###################################
 
-before_filter :authenticate, :only => [:index,:edit, :update]
+ before_filter :authenticate, :only => [:index,:edit, :update]
 # before filter arranges for a particular method to be called before t
 # he given actions.
 # In this case, we define an authenticate method and invoke it using 
@@ -11,10 +11,10 @@ before_filter :authenticate, :only => [:index,:edit, :update]
 # By default, before filters apply to every action in a controller, so here 
 # we restrict the filter to act only on the :edit and :update actions by passing 
 # the :only options hash.
-before_filter :correct_user, :only => [:edit, :update]
+ before_filter :correct_user, :only => [:edit, :update]
 # See correct_user method defines in private section
 
-before_filter :admin_user,   :only => :destroy
+ before_filter :admin_user,   :only => :destroy
 # A before filter restricting the destroy action to admins. 
 
 ############# BEFORE filters END ###################################
@@ -25,7 +25,7 @@ before_filter :admin_user,   :only => :destroy
 	def index
     @title = "All users"
     @users = User.paginate(:page => params[:page]) #on Windows - restart webrick for this setting to kick in
-    WillPaginate.per_page = 10 #on Windows - restart webrick for this setting to kick in
+    # WillPaginate.per_page = 10 #on Windows - restart webrick for this setting to kick in
   end
 
 # We can paginate the users in the sample application by using paginate in 
@@ -43,6 +43,9 @@ before_filter :admin_user,   :only => :destroy
 	# so the effect is the same as the find command
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(:page => params[:page])
+    # paginate works with the microposts association, converting the array 
+    # into a WillPaginate::Collection object on the fly
     @title = @user.name
   end
   
@@ -95,14 +98,19 @@ def update
 
 private
 
-    def authenticate
-      deny_access unless signed_in?
-    end
+    # def authenticate
+    # deny_access unless signed_in?
+    # end
+    # SEE THE NOTE BELOW AS TO WHY IT WAS MOVED TO Session_helper
     
 # deny_access 
 # Since access denial is part of authentication, we’ll put it in the 
 # Sessions helper. All deny_access does is put a message in flash[:notice] 
 # and then redirect to the signin page
+
+# REMOVED - At the time, we only needed authenticate in the Users controller, 
+# but now we find that we need it in the Microposts controller as well, 
+# so we’ll move authenticate into the Sessions helper
 
     def correct_user
       @user = User.find(params[:id])

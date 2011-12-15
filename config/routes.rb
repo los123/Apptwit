@@ -2,6 +2,7 @@ Apptwit::Application.routes.draw do
 	
   resources :users
   resources :sessions, :only => [:new, :create, :destroy]
+  resources :microposts, :only => [:create, :destroy]
   
   # get '/signup' => 'users#new', :as => "signup"
   match '/signup',  :to => 'users#new', :as => "signup"
@@ -15,7 +16,7 @@ Apptwit::Application.routes.draw do
   root :to => 'pages#home'
   
   
-# WHAT ENTRY resources :users ACTUALLY PROVIDES:
+# WHAT ENTRY resources :users ACTUALLY PROVIDES: 
 # HTTP request	URL	       Action	  Named route	     Purpose
 # GET	      /users	       index	  users_path	     page to list all users
 # GET	      /users/1	     show	    user_path(1)	   page to show user with id 1

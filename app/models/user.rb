@@ -10,6 +10,12 @@ class User < ActiveRecord::Base
   # added :admin to the listm then malicious user can send a PUT request as follows
   # put /users/17?admin=1 This request would make user 17 an admin, which could be a potentially serious security breach, to say the least.
   
+  has_many :microposts
+  
+  
+  has_many :microposts, :dependent => :destroy
+  # Ensuring that a user’s microposts are destroyed along with the user. 
+  
   
   attr_accessor :password
   # We use "attr_accessor :password" to create a virtual password attribute

@@ -334,6 +334,7 @@ it "should have an element for each user" do
 
 
 ############### SECURITY TESTS ######################
+############### SECURITY TESTS ######################
 # tests should check not only that admins can delete users, but also that 
 # other users can’t.
   
@@ -381,6 +382,19 @@ it "should have an element for each user" do
       end
     end
   end
+  
+  
+###### TEST FOR SHOWING MICROPOSTS ON THE USER SHOW PAGE  ############### 
+###### TEST FOR SHOWING MICROPOSTS ON THE USER SHOW PAGE  ############### 
+
+      it "should show the user's microposts" do
+        mp1 = Factory(:micropost, :user => @user, :content => "Foo bar")
+        mp2 = Factory(:micropost, :user => @user, :content => "Baz quux")
+        get :show, :id => @user
+        response.should have_selector("span.content", :content => mp1.content)
+        response.should have_selector("span.content", :content => mp2.content)
+      end
+    end  
   
 ############### EL FONDO ######################
 
