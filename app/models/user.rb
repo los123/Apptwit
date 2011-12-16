@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
                        
   before_save :encrypt_password
   
-################# AUTHENTICATE METHOD ##################################
+################# AUTHENTICATE SECTION ##################################
   
   # Return true if stored user's password matches the submitted password
   # The has_password? method will test whether a user has the same password as one submitted on a sign-in form  
@@ -69,8 +69,23 @@ class User < ActiveRecord::Base
   # Here authenticate_with_salt first finds the user by unique id, and then verifies that the salt stored in the cookie 
   # is the correct one for that user.
   
-################# AUTHENTICATE METHOD END ##################################
+################# OTHER METHODS ##################################
   	  		  
+def feed
+    # This is preliminary. See Chapter 12 for the full implementation.
+    Micropost.where("user_id = ?", id)
+    # The question mark in the line above ensures that id is properly escaped 
+    # before being included in the underlying SQL query, thereby avoiding a 
+    # serious security hole called SQL injection.
+    # he id attribute here is just an integer, so there is no danger in this 
+    # case, but always escaping variables injected into SQL statements is a 
+    # good habit to cultivate.
+  end
+
+
+
+################# PRIVATE SECTION #####################
+
 private
 
 # All methods defined after private are used internally by the object and are not intended for public use

@@ -205,7 +205,7 @@ describe User do
 		        end
 		        end
 		    
-			################## TESTING THE ORDER OF UDER'S MICROPOSTS #############
+			################## TESTING THE ORDER OF USER'S MICROPOSTS #############
 			
 			describe "micropost associations" do
 
@@ -227,7 +227,7 @@ describe User do
     end
   end
   
-  ################## TESTING THAT MICROPOSTS ARE DESROYED HEN USERS ARE #############
+################## TESTING THAT MICROPOSTS ARE DESROYED WHEN USERS ARE #############
   
   describe "micropost associations" do
 
@@ -238,8 +238,41 @@ describe User do
       end
     end
    end
-  
-      ################## EL FONDO  ############ 
+
+   
+################## TEST FOR THE (PROTO)STATUS FEED  #############
+ 
+     describe "status feed" do
+
+      it "should have a feed" do
+        @user.should respond_to(:feed)
+      end
+
+      it "should include the user's microposts" do
+        @user.feed.include?(@mp1).should be_true
+        @user.feed.include?(@mp2).should be_true
+      end
+      # include? method simply checks if an array includes the given element
+      # $ rails console
+      # >> a = [1, "foo", :bar]
+      # >> a.include?("foo")
+      # => true
+      # >> a.include?(:bar)
+      # => true
+      # >> a.include?("baz")
+      # => false
+
+      it "should not include a different user's microposts" do
+        mp3 = Factory(:micropost,
+                      :user => Factory(:user, :email => Factory.next(:email)))
+        @user.feed.include?(mp3).should be_false
+      end
+    
+    end
+
+
+ 
+############################# EL FONDO  #####################################
 			
 		end	
 	end
