@@ -2,7 +2,7 @@ class Micropost < ActiveRecord::Base
   
 attr_accessible :content
 # Failing to define accessible attributes means that anyone could change any aspect 
-# of a micropost object simply by using a command-line client to issue malicious 
+# of a micropost object simply by using a command-line client to issue malicious
 # requests. For example, a malicious user could change the user_id attributes on 
 # microposts, thereby associating microposts with the wrong users.
 # In the case of the Micropost model, there is only one attribute that needs to 

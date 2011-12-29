@@ -1,6 +1,7 @@
 require 'digest'
 
 class User < ActiveRecord::Base
+  
   # attr_accessible is important for preventing a mass assignment vulnerability, a distressingly common and often serious security hole in many Rails applications.
   # Since we�ll be accepting passwords and password confirmations as part of the signup process we need to add the password and 
   # its confirmation to the list of accessible attributes 
@@ -8,13 +9,30 @@ class User < ActiveRecord::Base
   # !!! Explicitly defining accessible attributes is crucial for good site security.
   # For example exclding :admin from the list is the very good idea. If we follishly
   # added :admin to the listm then malicious user can send a PUT request as follows
-  # put /users/17?admin=1 This request would make user 17 an admin, which could be a potentially serious security breach, to say the least.
+  # put /users/17?admin=1 This request would make user 17 an admin, which 
+  # could be a potentially serious security breach, to say the least.
   
-  has_many :microposts
+  # has_many :microposts - commented out to accomodate new realtionship
+  # association for following postst in the microblog
+  has_many :microposts, :dependent => :destroy
+  has_many :relationships, :foreign_key => "follower_id",
+                           :dependent => :destroy
+  has_many :following, :through => :relationships, :source => :followed
+  # :source parameter (Listing 12.11), which explicitly tells Rails that the 
+  # source of the following array is the set of followed ids
+  # Since destroying a user should also destroy that user’s relationships, 
+  # we’ve gone ahead and added :dependent => :destroy to the association
   
-  
+    
   has_many :microposts, :dependent => :destroy
   # Ensuring that a user’s microposts are destroyed along with the user. 
+  
+  # Implementing user.followers using reverse relationships.
+  
+  has_many :reverse_relationships, :foreign_key => "followed_id",
+                                   :class_name => "Relationship",
+                                   :dependent => :destroy
+  has_many :followers, :through => :reverse_relationships, :source => :follower
   
   
   attr_accessor :password
@@ -82,6 +100,27 @@ def feed
     # good habit to cultivate.
   end
 
+def following?(followed)
+    relationships.find_by_followed_id(followed)
+  end
+
+def follow!(followed)
+    relationships.create!(:followed_id => followed.id)
+  end
+
+# Unfollowing a user by destroying a user relationship
+
+def following?(followed)
+    relationships.find_by_followed_id(followed)
+  end
+
+def follow!(followed)
+    relationships.create!(:followed_id => followed.id)
+  end
+
+def unfollow!(followed)
+    relationships.find_by_followed_id(followed).destroy
+  end
 
 
 ################# PRIVATE SECTION #####################
