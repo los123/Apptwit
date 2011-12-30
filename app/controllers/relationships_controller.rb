@@ -13,3 +13,4 @@ class RelationshipsController < ApplicationController
     redirect_to @user
   end
 end
+
