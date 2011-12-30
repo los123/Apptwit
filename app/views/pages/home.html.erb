@@ -16,6 +16,8 @@
         <h1 class="micropost">What's up?</h1>
         <%= render 'shared/micropost_form' %>
         <%= render 'shared/feed' %>
+        <%= render 'shared/user_info' %>
+        <%= render 'shared/stats' %>
       </td>
       <td class="sidebar round">
         <%= render 'shared/user_info' %>
@@ -23,13 +25,18 @@
     </tr>
   </table>
 <% else %>
-  <h1>Sample App</h1>
+  <!-- ><h1>Sample App</h1>
 
   <p>
     This is the home page for the
     <a href="http://railstutorial.org/">Ruby on Rails Tutorial</a>
     sample application.
-  </p>
+  </p> -->
+  
+  <p>
+  	You can <a href="http://localhost:3000/signin"><b>Sign In</b></a>, or please use
+  	the button below to Sign Up.
+  </p>	
 
 <%= link_to "Sign up now!", signup_path, :class => "signup_button round" %>
 <% end %>

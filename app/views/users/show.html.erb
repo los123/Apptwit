@@ -5,6 +5,7 @@
         <%= gravatar_for @user %>
         <%= @user.name %>
       </h1>
+      <%= render 'follow_form' if signed_in? %>
       <% unless @user.microposts.empty? %>
       <!-- by this line we make sure that an empty table won’t be displayed 
       	when the user has no microposts.-->
@@ -23,6 +24,7 @@
       <!-- Here @user.microposts.count is the analogue of the User.count 
       	method, except that it counts the microposts belonging to a given 
       	user through the user/micropost association.-->
+      	<%= render 'shared/stats' %>
     </td>
   </tr>
 </table>

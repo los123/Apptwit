@@ -3,7 +3,14 @@
 ############# BEFORE filters ###################################
 ############# BEFORE filters ###################################
 
- before_filter :authenticate, :only => [:index,:edit, :update]
+# before_filter :authenticate, :only => [:index,:edit, :update]
+# in order to protect the pages for following and followers from unauthorized 
+# access, we have changed the authentication before filter to use :except 
+# instead of :only. So far in this tutorial, we have used :only to indicate 
+# which actions the filter gets applied to; with the addition of the new 
+# protected actions, the balance has shifted, and it is simpler to indicate 
+# which actions shouldn’t be filtered. We do this with the :except option
+ before_filter :authenticate, :except => [:show, :new, :create]
 # before filter arranges for a particular method to be called before t
 # he given actions.
 # In this case, we define an authenticate method and invoke it using 
@@ -92,6 +99,20 @@ def update
     User.find(params[:id]).destroy
     flash[:success] = "User destroyed."
     redirect_to users_path
+  end
+
+  def following
+    @title = "Following"
+    @user = User.find(params[:id])
+    @users = @user.following.paginate(:page => params[:page])
+    render 'show_follow'
+  end
+
+  def followers
+    @title = "Followers"
+    @user = User.find(params[:id])
+    @users = @user.followers.paginate(:page => params[:page])
+    render 'show_follow'
   end
 
 ########### PRIVATE SECTION #################3

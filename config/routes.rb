@@ -1,8 +1,21 @@
 Apptwit::Application.routes.draw do
 	
-  resources :users
+  resources :users do
+    member do
+      get :following, :followers
+    end
+  end
+  
+  # You might suspect that the URLs for user following and followers will look 
+  # like /users/1/following and /users/1/followers, and that is exactly what the 
+  # code does. Since both pages will be showing data, we use 
+  # get to arrange for the URLs to respond to GET requests (as required by the 
+  # REST convention for such pages), and the "member" method means that the routes 
+  # respond to URLs containing the user id.
+  
   resources :sessions, :only => [:new, :create, :destroy]
   resources :microposts, :only => [:create, :destroy]
+  resources :relationships, :only => [:create, :destroy]
   
   # get '/signup' => 'users#new', :as => "signup"
   match '/signup',  :to => 'users#new', :as => "signup"
