@@ -25,6 +25,13 @@
     </tr>
   </table>
 <% else %>
+	  <center>
+      <%= link_to "Sign in here", signin_path %>
+   	     <b>, or please sign up below </b>
+   	  </center>
+   	     <br></br>
+   	    
+  
   <!-- ><h1>Sample App</h1>
 
   <p>
@@ -33,10 +40,10 @@
     sample application.
   </p> -->
   
-  <p>
+  <!-- ><p>
   	You can <a href="http://localhost:3000/signin"><b>Sign In</b></a>, or please use
   	the button below to Sign Up.
-  </p>	
+  </p>	-->
 
 <%= link_to "Sign up now!", signup_path, :class => "signup_button round" %>
 <% end %>
